@@ -7,14 +7,27 @@
 //
 
 import UIKit
+import Alamofire
+
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        testAPICall()
     }
 
+    func testAPICall() {
+        MarvelAPI.getCharactersByPage(page: 1, success: { (statusCode, data) in
+            print(data!)
 
+            
+        }) { (statusCode) in
+
+        }
+        
+        
+    }
 }
 
