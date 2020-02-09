@@ -13,14 +13,14 @@ protocol HomeViewToPresenterProtocol: class {
     var view: HomePresenterToViewProtocol? {get set}
     var interactor: HomePresenterToInteractorProtocol? {get set}
     var router: HomePresenterToRouterProtocol? {get set}
+    var characters: [Character] {get set}
     
     func startFetchingCharacters()
     func showCharacterDetailController(navigationController: UINavigationController)
 }
 
 protocol HomePresenterToViewProtocol: class {
-    func showCharacters(characters: [Character]?)
-    func appendCharacters(characters: [Character]?)
+    func showCharacters()
     func showError()
     func showErrorAppend()
     func showErrorRefresh()
@@ -41,8 +41,8 @@ protocol HomePresenterToInteractorProtocol: class {
 protocol HomeInteractorToPresenterProtocol: class {
     func noticeRefreshSuccess(characters: [Character]?, totalCharacters: Int?)
     func noticeRefreshFailure()
-    func noticeFetchCharactersSuccess(characters: [Character]?, totalCharacters: Int?)
-    func noticeFetchCharactersFailure()
+    func noticeLoadCharactersSuccess(characters: [Character]?, totalCharacters: Int?)
+    func noticeLoadCharactersFailure()
     func noticeLoadNextPageSuccess(characters: [Character]?, totalCharacters: Int?)
     func noticeLoadNextPageFailure()
 }

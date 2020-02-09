@@ -17,9 +17,9 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.cardView.layer.shadowRadius = 14
+        self.cardView.layer.shadowRadius = 7
         self.cardView.layer.shadowOpacity = 0.6
         self.cardView.layer.shadowColor = UIColor.gray.cgColor
-        self.cardView.layer.cornerRadius = 20
+        self.cardView.layer.cornerRadius = 10
     }
 }

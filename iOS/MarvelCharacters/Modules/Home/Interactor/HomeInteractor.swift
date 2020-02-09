@@ -9,25 +9,27 @@
 import Foundation
 
 class HomeInteractor: HomePresenterToInteractorProtocol {
-    var presenter: HomeInteractorToPresenterProtocol?
+    weak var presenter: HomeInteractorToPresenterProtocol?
+    var api = MarvelAPI()
+    
     
     func fetchCharacters() {
-        MarvelAPI.get(endpoint: .characters,
-                      pathParameters: nil,
-                      queryParameters: ["limit": 20],
-        success: { (statusCode, result) in
+        api.get(endpoint: .characters,
+                pathParameters: nil,
+                queryParameters: ["limit": 20],
+        success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
             guard let characterDataWrapper = try? decoder.decode(CharacterDataWrapper.self, from: result) else {
-                self.presenter?.noticeFetchCharactersFailure()
+                self?.presenter?.noticeLoadCharactersFailure()
                 return
             }
         
-            self.presenter?.noticeFetchCharactersSuccess(
+            self?.presenter?.noticeLoadCharactersSuccess(
                 characters: characterDataWrapper.data?.results,
                 totalCharacters: characterDataWrapper.data?.count
             )
-        }, failure: { (statusCode) in
-            self.presenter?.noticeFetchCharactersFailure()
+        }, failure: { [weak self] (statusCode) in
+            self?.presenter?.noticeLoadCharactersFailure()
         })
     }
     
@@ -37,46 +39,42 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
             "offset": 20 * (page - 1)
         ]
         
-        MarvelAPI.get(endpoint: .characters,
-                      pathParameters: nil,
-                      queryParameters: queryParameters,
-        success: { (statusCode, result) in
+        api.get(endpoint: .characters,
+                pathParameters: nil,
+                queryParameters: queryParameters,
+        success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
             guard let characterDataWrapper = try? decoder.decode(CharacterDataWrapper.self, from: result) else {
-                self.presenter?.noticeLoadNextPageFailure()
+                self?.presenter?.noticeLoadNextPageFailure()
                 return
             }
         
-            self.presenter?.noticeLoadNextPageSuccess(
+            self?.presenter?.noticeLoadNextPageSuccess(
                 characters: characterDataWrapper.data?.results,
                 totalCharacters: characterDataWrapper.data?.count
             )
-        }, failure: { (statusCode) in
-            self.presenter?.noticeLoadNextPageFailure()
+        }, failure: { [weak self] (statusCode) in
+            self?.presenter?.noticeLoadNextPageFailure()
         })
     }
     
     func refreshData() {
-        MarvelAPI.get(endpoint: .characters,
-                      pathParameters: nil,
-                      queryParameters: ["limit": 20],
-        success: { (statusCode, result) in
+        api.get(endpoint: .characters,
+                pathParameters: nil,
+                queryParameters: ["limit": 20],
+        success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
             guard let characterDataWrapper = try? decoder.decode(CharacterDataWrapper.self, from: result) else {
-                self.presenter?.noticeRefreshFailure()
+                self?.presenter?.noticeRefreshFailure()
                 return
             }
         
-            self.presenter?.noticeRefreshSuccess(
+            self?.presenter?.noticeRefreshSuccess(
                 characters: characterDataWrapper.data?.results,
                 totalCharacters: characterDataWrapper.data?.count
             )
-        }, failure: { (statusCode) in
-            self.presenter?.noticeRefreshFailure()
+        }, failure: { [weak self] (statusCode) in
+            self?.presenter?.noticeRefreshFailure()
         })
-    }
-    
-    private func loadCharacters(queryParameters: [String : Any]) {
-        
     }
 }

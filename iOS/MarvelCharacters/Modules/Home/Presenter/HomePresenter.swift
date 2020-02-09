@@ -10,9 +10,11 @@ import Foundation
 import UIKit
 
 class HomePresenter: HomeViewToPresenterProtocol {
-    var view: HomePresenterToViewProtocol?
+    weak var view: HomePresenterToViewProtocol?
     var interactor: HomePresenterToInteractorProtocol?
     var router: HomePresenterToRouterProtocol?
+    var characters = [Character]()
+    var hasNextPage = true
     
     func startFetchingCharacters() {
         interactor?.fetchCharacters()
@@ -26,23 +28,40 @@ class HomePresenter: HomeViewToPresenterProtocol {
 extension HomePresenter: HomeInteractorToPresenterProtocol {
     
     func noticeRefreshSuccess(characters: [Character]?, totalCharacters: Int?) {
-        view?.showCharacters(characters: characters)
+        guard let elements = characters else {
+            return
+        }
+        
+        self.characters.removeAll()
+        self.characters.append(contentsOf: elements)
+        view?.showCharacters()
     }
     
     func noticeRefreshFailure(){
         view?.showErrorRefresh()
     }
     
-    func noticeFetchCharactersSuccess(characters: [Character]?, totalCharacters: Int?) {
-        view?.showCharacters(characters: characters)
+    func noticeLoadCharactersSuccess(characters: [Character]?, totalCharacters: Int?) {
+        guard let elements = characters else {
+            return
+        }
+        
+        self.characters.removeAll()
+        self.characters.append(contentsOf: elements)
+        view?.showCharacters()
     }
     
-    func noticeFetchCharactersFailure(){
+    func noticeLoadCharactersFailure() {
         view?.showError()
     }
     
     func noticeLoadNextPageSuccess(characters: [Character]?, totalCharacters: Int?) {
-        view?.appendCharacters(characters: characters)
+        guard let elements = characters else {
+            return
+        }
+        
+        self.characters.append(contentsOf: elements)
+        view?.showCharacters()
     }
     
     func noticeLoadNextPageFailure() {
