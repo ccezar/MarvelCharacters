@@ -14,18 +14,56 @@ class HomePresenter: HomeViewToPresenterProtocol {
     var interactor: HomePresenterToInteractorProtocol?
     var router: HomePresenterToRouterProtocol?
     var characters = [Character]()
-    var hasNextPage = true
+    var filteredCharacters = [Character]()
+    var searchActive = false
+    var page = 1
+    private var hasNextPage = true
+    private var currentFitler = ""
+    
+    func getCharacters() -> [Character] {
+        if searchActive {
+            return filteredCharacters
+        } else {
+            return characters
+        }
+    }
     
     func startFetchingCharacters() {
+        page = 1
         interactor?.fetchCharacters()
+    }
+    
+    func startLoadingCharactersNextPage() {
+        if hasNextPage {
+            page += 1
+            
+            if searchActive {
+                interactor?.filterCharacters(nameStartsWith: currentFitler, page: page)
+            } else {
+                interactor?.loadCharactersNextPage(page: page)
+            }
+        }
+    }
+    
+    func startFilteringCharacters(nameStartsWith: String) {
+        currentFitler = nameStartsWith
+        page = 1
+        interactor?.filterCharacters(nameStartsWith: currentFitler, page: page)
     }
     
     func showCharacterDetailController(navigationController: UINavigationController) {
         router?.pushToCharacterDetailScreen(navigationConroller: navigationController)
     }
+    
+    func updateFavoriteStatus(character: Character) {
+        
+    }
 }
 
 extension HomePresenter: HomeInteractorToPresenterProtocol {
+    func noticeNoInternetConnection() {
+        view?.showErrorInternetConnection()
+    }
     
     func noticeRefreshSuccess(characters: [Character]?, totalCharacters: Int?) {
         guard let elements = characters else {
@@ -34,6 +72,7 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         
         self.characters.removeAll()
         self.characters.append(contentsOf: elements)
+
         view?.showCharacters()
     }
     
@@ -42,12 +81,21 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
     }
     
     func noticeLoadCharactersSuccess(characters: [Character]?, totalCharacters: Int?) {
-        guard let elements = characters else {
+        guard let elements = characters, let totalCharacters = totalCharacters else {
             return
         }
         
-        self.characters.removeAll()
-        self.characters.append(contentsOf: elements)
+        let totalPages = totalCharacters / 20
+        hasNextPage = (page + 1) <= totalPages
+        
+        if searchActive {
+            self.filteredCharacters.removeAll()
+            self.filteredCharacters.append(contentsOf: elements)
+        } else {
+            self.characters.removeAll()
+            self.characters.append(contentsOf: elements)
+        }
+        
         view?.showCharacters()
     }
     
@@ -56,11 +104,19 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
     }
     
     func noticeLoadNextPageSuccess(characters: [Character]?, totalCharacters: Int?) {
-        guard let elements = characters else {
+        guard let elements = characters, let totalCharacters = totalCharacters else {
             return
         }
         
-        self.characters.append(contentsOf: elements)
+        let totalPages = totalCharacters / 20
+        hasNextPage = (page + 1) <= totalPages
+        
+        if searchActive {
+            self.filteredCharacters.append(contentsOf: elements)
+        } else {
+            self.characters.append(contentsOf: elements)
+        }
+        
         view?.showCharacters()
     }
     
@@ -68,4 +124,7 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         view?.showErrorAppend()
     }
     
+    func noticeFilterCharactersFailure() {
+        view?.showErrorFilter()
+    }
 }

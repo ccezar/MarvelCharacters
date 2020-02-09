@@ -33,6 +33,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rtE-tj-y6c">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ops!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaV-YL-QsY">
+                                        <rect key="frame" x="162.5" y="213" width="89" height="48"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="An error has occurred, please try again. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oei-Bw-W0T">
+                                        <rect key="frame" x="8" y="277" width="398" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diK-hU-5BO">
+                                        <rect key="frame" x="157" y="317" width="100" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="4YN-HJ-WCa"/>
+                                            <constraint firstAttribute="width" constant="100" id="xGS-Pv-FYZ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Retry"/>
+                                        <connections>
+                                            <action selector="didTapRetryButton:" destination="p87-S8-mgq" eventType="touchUpInside" id="4fn-3W-qJj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="oei-Bw-W0T" firstAttribute="leading" secondItem="rtE-tj-y6c" secondAttribute="leading" constant="8" id="QpX-4y-0jp"/>
+                                    <constraint firstItem="diK-hU-5BO" firstAttribute="top" secondItem="oei-Bw-W0T" secondAttribute="bottom" constant="16" id="RwT-Lw-JRD"/>
+                                    <constraint firstItem="vaV-YL-QsY" firstAttribute="centerY" secondItem="rtE-tj-y6c" secondAttribute="centerY" constant="-150" id="ac1-fX-kQ0"/>
+                                    <constraint firstItem="vaV-YL-QsY" firstAttribute="centerX" secondItem="rtE-tj-y6c" secondAttribute="centerX" id="l04-m4-x8n"/>
+                                    <constraint firstItem="diK-hU-5BO" firstAttribute="centerX" secondItem="rtE-tj-y6c" secondAttribute="centerX" id="xUx-QE-TgR"/>
+                                    <constraint firstItem="oei-Bw-W0T" firstAttribute="top" secondItem="vaV-YL-QsY" secondAttribute="bottom" constant="16" id="zGY-ew-nRD"/>
+                                    <constraint firstAttribute="trailing" secondItem="oei-Bw-W0T" secondAttribute="trailing" constant="8" id="zSd-qg-7qj"/>
+                                </constraints>
+                            </view>
                             <collectionView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Exz-Ja-pzv">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -58,8 +97,8 @@
                                                             <color key="backgroundColor" red="0.92941176469999998" green="0.92941176469999998" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Character 1234" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejQ-aa-uaS" userLabel="Name Label">
-                                                            <rect key="frame" x="8" y="202.5" width="141" height="14.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <rect key="frame" x="8" y="201.5" width="141" height="16"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -73,6 +112,9 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="didTapFavoriteButton:" destination="OI9-Qa-WN0" eventType="touchUpInside" id="egE-j1-2Ka"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -119,10 +161,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="rtE-tj-y6c" firstAttribute="top" secondItem="fKs-mo-OWk" secondAttribute="top" id="Eoh-Bj-nx5"/>
+                            <constraint firstItem="fKs-mo-OWk" firstAttribute="bottom" secondItem="rtE-tj-y6c" secondAttribute="bottom" id="W3g-wI-P2D"/>
                             <constraint firstItem="Exz-Ja-pzv" firstAttribute="top" secondItem="fKs-mo-OWk" secondAttribute="top" id="bTp-CG-7rG"/>
                             <constraint firstItem="Exz-Ja-pzv" firstAttribute="leading" secondItem="fKs-mo-OWk" secondAttribute="leading" id="m1o-GX-5YU"/>
+                            <constraint firstItem="rtE-tj-y6c" firstAttribute="leading" secondItem="fKs-mo-OWk" secondAttribute="leading" id="wM3-OE-bpV"/>
                             <constraint firstItem="Exz-Ja-pzv" firstAttribute="trailing" secondItem="fKs-mo-OWk" secondAttribute="trailing" id="wni-wR-vv1"/>
                             <constraint firstItem="fKs-mo-OWk" firstAttribute="bottom" secondItem="Exz-Ja-pzv" secondAttribute="bottom" id="wq0-u9-cHt"/>
+                            <constraint firstItem="fKs-mo-OWk" firstAttribute="trailing" secondItem="rtE-tj-y6c" secondAttribute="trailing" id="z6l-Zj-qBj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fKs-mo-OWk"/>
                     </view>
@@ -131,6 +177,10 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black"/>
                     <connections>
                         <outlet property="collectionView" destination="Exz-Ja-pzv" id="kJG-zO-Egn"/>
+                        <outlet property="errorView" destination="rtE-tj-y6c" id="Xke-mk-SCl"/>
+                        <outlet property="messageErrorLabel" destination="oei-Bw-W0T" id="S0t-wa-8zT"/>
+                        <outlet property="retryErrorButton" destination="diK-hU-5BO" id="QZ3-SX-Nnf"/>
+                        <outlet property="titleErrorLabel" destination="vaV-YL-QsY" id="8Nj-ef-a12"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gA1-dU-PWU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

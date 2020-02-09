@@ -24,6 +24,10 @@ open class MarvelAPI {
     private let publicKey = "eaf6a86b375ee3572f5f1517dfbcc9a1"
     private let privateKey = "7b95c96da943e542f4c67038fd3cfef3a64674d1"
     
+    func isConnectedToInternet() -> Bool {
+        return NetworkReachabilityManager()!.isReachable
+    }
+    
     func get(endpoint: Endpoint, pathParameters: Parameters?, queryParameters: Parameters,
                    success: @escaping success, failure: @escaping failure) {
         let tokens = generateRequestTokens()

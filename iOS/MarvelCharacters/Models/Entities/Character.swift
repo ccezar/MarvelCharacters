@@ -14,6 +14,8 @@ class Character: Codable {
     let resourceURI: String?
     let urls: [Url]?
     let thumbnail: Thumbnail?
+    
+    private var favorite = false
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -31,5 +33,17 @@ class Character: Codable {
         self.resourceURI = resourceURI
         self.urls = urls
         self.thumbnail = thumbnail
+    }
+    
+    func setFavorite() {
+        favorite = true
+    }
+    
+    func unsetFavorite() {
+        favorite = false
+    }
+    
+    func isFavorite() -> Bool {
+        return favorite
     }
 }
