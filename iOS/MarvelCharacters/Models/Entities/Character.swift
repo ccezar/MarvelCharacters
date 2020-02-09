@@ -14,18 +14,16 @@ class Character: Codable {
     let resourceURI: String?
     let urls: [Url]?
     let thumbnail: Thumbnail?
-    let comics: ComicList?
-    let stories: StoryList?
 
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case resultDescription = "description"
-        case modified, resourceURI, urls, thumbnail, comics, stories
+        case modified, resourceURI, urls, thumbnail
     }
 
-    init(id: Int?, name: String?, resultDescription: String?, modified: String?, resourceURI: String?,
-         urls: [Url]?, thumbnail: Thumbnail?, comics: ComicList?, stories: StoryList?) {
+    init(id: Int?, name: String?, resultDescription: String?, modified: String?,
+         resourceURI: String?, urls: [Url]?, thumbnail: Thumbnail?) {
         self.id = id
         self.name = name
         self.resultDescription = resultDescription
@@ -33,7 +31,5 @@ class Character: Codable {
         self.resourceURI = resourceURI
         self.urls = urls
         self.thumbnail = thumbnail
-        self.comics = comics
-        self.stories = stories
     }
 }

@@ -17,7 +17,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        buildInitialScreenFlow(windowScene: windowScene)
+    }
+    
+    private func buildInitialScreenFlow(windowScene: UIWindowScene) {
+        // Characters Tab
+        let homeViewController = HomeRouter.createModule()
+
+        let homeNavigationController = UINavigationController()
+        homeNavigationController.viewControllers = [homeViewController]
+
+        let homeItem = UITabBarItem()
+        homeItem.title = "Characters"
+        homeItem.image = UIImage(named: "like")
+        homeNavigationController.tabBarItem = homeItem
+        
+        // Favorites Tab
+        let favoritesViewController = FavoritesRouter.createModule()
+
+        let favoritesNavigationController = UINavigationController()
+        favoritesNavigationController.viewControllers = [favoritesViewController]
+
+        let favoritesItem = UITabBarItem()
+        favoritesItem.title = "Favorites"
+        favoritesItem.image = UIImage(named: "liked")
+        favoritesNavigationController.tabBarItem = favoritesItem
+
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [
+            homeNavigationController,
+            favoritesNavigationController
+        ]
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

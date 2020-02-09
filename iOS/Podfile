@@ -6,6 +6,7 @@ target 'MarvelCharacters' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'AlamofireImage'
 
   target 'MarvelCharactersTests' do
     inherit! :search_paths
