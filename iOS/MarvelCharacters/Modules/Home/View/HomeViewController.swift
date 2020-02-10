@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import AlamofireImage
+import CoreData
 
 class HomeViewController: UIViewController {
     
@@ -28,7 +29,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         presenter?.startFetchingCharacters()
-        
+    
         collectionView.delegate = self
         collectionView.dataSource = self
         

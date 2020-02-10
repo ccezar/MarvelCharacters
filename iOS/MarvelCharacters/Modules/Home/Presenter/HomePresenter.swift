@@ -56,7 +56,24 @@ class HomePresenter: HomeViewToPresenterProtocol {
     }
     
     func updateFavoriteStatus(character: Character) {
+        guard let id = character.id  else {
+            return
+        }
         
+        if !character.isFavorite() {
+            FavoriteCoreDataModel.deleteFavorite(id: id)
+        } else {
+            FavoriteCoreDataModel.addFavorite(character: character)
+        }
+    }
+    
+    private func setFavorites(_ characters: [Character]) {
+        let favorites = FavoriteCoreDataModel.getFavorites()
+        for character in characters {
+            if favorites.contains(where: { $0.id == character.id! }) {
+                character.setFavorite()
+            }
+        }
     }
 }
 
@@ -70,6 +87,7 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
             return
         }
         
+        setFavorites(elements)
         self.characters.removeAll()
         self.characters.append(contentsOf: elements)
 
@@ -84,6 +102,8 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         guard let elements = characters, let totalCharacters = totalCharacters else {
             return
         }
+        
+        setFavorites(elements)
         
         let totalPages = totalCharacters / 20
         hasNextPage = (page + 1) <= totalPages
@@ -108,6 +128,8 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
             return
         }
         
+        setFavorites(elements)
+
         let totalPages = totalCharacters / 20
         hasNextPage = (page + 1) <= totalPages
         

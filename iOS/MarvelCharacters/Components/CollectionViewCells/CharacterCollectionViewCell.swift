@@ -26,7 +26,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         didSet {
             if let character = character {
                 nameLabel.text = character.name
-                thumbImageView.image = UIImage(named: "no-image-icon")
+                thumbImageView.image = nil
                 favoriteButton.setImage(UIImage(named: character.isFavorite() ? "liked" : "like"), for: .normal)
             }
         }
@@ -53,7 +53,4 @@ class CharacterCollectionViewCell: UICollectionViewCell {
             delegate?.updateFavoriteStatus(character: character)
         }
     }
-    
-    
-    
 }
