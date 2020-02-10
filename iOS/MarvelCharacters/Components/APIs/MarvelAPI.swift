@@ -17,7 +17,7 @@ open class MarvelAPI {
     enum Endpoint : String {
         case characters = "characters",
         charactersComics = "characters/{characterId}/comics",
-        seriesSeries = "characters/{characterId}/series"
+        charactersSeries = "characters/{characterId}/series"
     }
     
     private let basePath = "http://gateway.marvel.com/v1/public/"

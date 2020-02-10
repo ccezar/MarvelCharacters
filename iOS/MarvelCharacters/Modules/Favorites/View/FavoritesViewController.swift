@@ -108,7 +108,11 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let navigationController = self.navigationController else {
+            return
+        }
         
+        presenter?.showCharacterDetailController(navigationController: navigationController)
     }
 }
 

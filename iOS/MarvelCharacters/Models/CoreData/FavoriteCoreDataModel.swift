@@ -62,19 +62,40 @@ class FavoriteCoreDataModel: NSObject {
         return favorites
     }
     
-    class func updateData(favorite: FavoriteCharacter) {
+    class func updateComics(id: Int, comics: [FavoriteProduction]?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Favorite")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", favorite.id)
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
         do
         {
             let result = try managedContext.fetch(fetchRequest)
             
             let objectUpdate = result[0] as! NSManagedObject
-            objectUpdate.setValue(favorite.comics, forKey: "comics")
-            objectUpdate.setValue(favorite.series, forKey: "series")
+            objectUpdate.setValue(comics, forKey: "comics")
+            do {
+                try managedContext.save()
+            } catch {
+                print(error)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    class func updateSeries(id: Int, series: [FavoriteProduction]?) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Favorite")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        do
+        {
+            let result = try managedContext.fetch(fetchRequest)
+            
+            let objectUpdate = result[0] as! NSManagedObject
+            objectUpdate.setValue(series, forKey: "series")
             do {
                 try managedContext.save()
             } catch {

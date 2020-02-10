@@ -22,7 +22,7 @@ protocol HomeViewToPresenterProtocol: class {
     func startLoadingCharactersNextPage()
     func updateFavoriteStatus(character: Character)
     func updateCharactersFavoriteStatus()
-    func showCharacterDetailController(navigationController: UINavigationController)
+    func showCharacterDetailController(character: Character, navigationController: UINavigationController)
 }
 
 protocol HomePresenterToViewProtocol: class {
@@ -36,7 +36,7 @@ protocol HomePresenterToViewProtocol: class {
 
 protocol HomePresenterToRouterProtocol: class {
     static func createModule() -> HomeViewController
-    func pushToCharacterDetailScreen(navigationConroller: UINavigationController)
+    func pushToCharacterDetailScreen(character: Character, navigationController: UINavigationController)
 }
 
 protocol HomePresenterToInteractorProtocol: class {

@@ -29,7 +29,7 @@ protocol FavoritesPresenterToViewProtocol: class {
 
 protocol FavoritesPresenterToRouterProtocol: class {
     static func createModule() -> FavoritesViewController
-    func pushToCharacterDetailScreen(navigationConroller: UINavigationController)
+    func pushToCharacterDetailScreen(navigationController: UINavigationController)
 }
 
 protocol FavoritesPresenterToInteractorProtocol: class {

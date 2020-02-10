@@ -31,13 +31,20 @@ class HomeRouter: HomePresenterToRouterProtocol {
         return UIStoryboard(name:"Main",bundle: Bundle.main)
     }
     
-    func pushToCharacterDetailScreen(navigationConroller navigationController: UINavigationController) {
-        
+    func pushToCharacterDetailScreen(character: Character, navigationController: UINavigationController) {
         let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "CharacterDetailsViewController") as! CharacterDetailsViewController
 
-
-        navigationController.pushViewController(view, animated: true)
+        let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
+        let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
         
+        presenter.character = character
+        
+        view.presenter = presenter
+        presenter.view = view
+        presenter.interactor = interactor
+        interactor.presenter = presenter
+        
+        navigationController.pushViewController(view, animated: true)
     }
     
 }

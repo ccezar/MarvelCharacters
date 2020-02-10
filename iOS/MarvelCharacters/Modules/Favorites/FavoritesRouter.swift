@@ -30,8 +30,7 @@ class FavoritesRouter: FavoritesPresenterToRouterProtocol {
         return UIStoryboard(name:"Main",bundle: Bundle.main)
     }
 
-    func pushToCharacterDetailScreen(navigationConroller navigationController: UINavigationController) {
-        
+    func pushToCharacterDetailScreen(navigationController: UINavigationController) {
         let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "CharacterDetailsViewController") as! CharacterDetailsViewController
 
 

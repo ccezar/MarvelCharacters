@@ -51,8 +51,8 @@ class HomePresenter: HomeViewToPresenterProtocol {
         interactor?.filterCharacters(nameStartsWith: currentFitler, page: page)
     }
     
-    func showCharacterDetailController(navigationController: UINavigationController) {
-        router?.pushToCharacterDetailScreen(navigationConroller: navigationController)
+    func showCharacterDetailController(character: Character, navigationController: UINavigationController) {
+        router?.pushToCharacterDetailScreen(character: character, navigationController: navigationController)
     }
     
     func updateFavoriteStatus(character: Character) {

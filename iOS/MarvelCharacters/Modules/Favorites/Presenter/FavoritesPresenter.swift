@@ -42,7 +42,7 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
     }
     
     func showCharacterDetailController(navigationController: UINavigationController) {
-        router?.pushToCharacterDetailScreen(navigationConroller: navigationController)
+        router?.pushToCharacterDetailScreen(navigationController: navigationController)
     }
 }
 

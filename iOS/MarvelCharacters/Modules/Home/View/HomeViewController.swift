@@ -194,7 +194,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let navigationController = self.navigationController, let character = presenter?.getCharacters()[indexPath.row] else {
+            return
+        }
         
+        presenter?.showCharacterDetailController(character: character, navigationController: navigationController)
     }
 }
 
