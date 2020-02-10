@@ -97,9 +97,9 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
         
         // TODO: Remove reference of Alamofire from View layer. Is it correct to move this logic to Presenter and Interactor respectively?
         if let imageURL = presenter?.getFavorites()[indexPath.row].imageURL, imageURL != "" {
-            Alamofire.request(imageURL).responseData { [weak self] (response) in
-                if response.error == nil, let data = response.data {
-                    cell.thumbImageView.image = UIImage(data: data)
+            Alamofire.request(imageURL).responseImage { [weak self] (response) in
+                if response.error == nil, let image = response.value {
+                    cell.thumbImageView.image = image
                 }
             }
         }

@@ -24,6 +24,13 @@ class HomeViewController: UIViewController {
     
     var presenter: HomeViewToPresenterProtocol?
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        presenter?.updateCharactersFavoriteStatus()
+        collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -174,9 +181,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let path = thumbnail.path,
             let thumbnailExtension = thumbnail.thumbnailExtension {
             let imageURL = "\(path).\(thumbnailExtension)"
-            Alamofire.request(imageURL).responseData { [weak self] (response) in
-                if response.error == nil, let data = response.data {
-                    cell.thumbImageView.image = UIImage(data: data)
+            
+            
+            Alamofire.request(imageURL).responseImage { [weak self] (response) in
+                if response.error == nil, let image = response.value {
+                    cell.thumbImageView.image = image
                 }
             }
         }

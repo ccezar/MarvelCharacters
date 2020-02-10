@@ -21,6 +21,7 @@ protocol HomeViewToPresenterProtocol: class {
     func startFetchingCharacters()
     func startLoadingCharactersNextPage()
     func updateFavoriteStatus(character: Character)
+    func updateCharactersFavoriteStatus()
     func showCharacterDetailController(navigationController: UINavigationController)
 }
 

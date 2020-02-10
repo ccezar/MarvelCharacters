@@ -67,11 +67,17 @@ class HomePresenter: HomeViewToPresenterProtocol {
         }
     }
     
+    func updateCharactersFavoriteStatus() {
+        setFavorites(characters)
+    }
+    
     private func setFavorites(_ characters: [Character]) {
         let favorites = FavoriteCoreDataModel.getFavorites()
         for character in characters {
             if favorites.contains(where: { $0.id == character.id! }) {
                 character.setFavorite()
+            } else {
+                character.unsetFavorite()
             }
         }
     }
