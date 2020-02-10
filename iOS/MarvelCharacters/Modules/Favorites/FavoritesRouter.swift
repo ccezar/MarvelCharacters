@@ -9,10 +9,20 @@
 import Foundation
 import UIKit
 
-class FavoritesRouter {
+class FavoritesRouter: FavoritesPresenterToRouterProtocol {
     static func createModule() -> FavoritesViewController {
         let view = mainstoryboard.instantiateViewController(withIdentifier: "FavoritesViewController") as! FavoritesViewController
             
+        let presenter: FavoritesViewToPresenterProtocol & FavoritesInteractorToPresenterProtocol = FavoritesPresenter()
+        let interactor: FavoritesPresenterToInteractorProtocol = FavoritesInteractor()
+        let router: FavoritesPresenterToRouterProtocol = FavoritesRouter()
+        
+        view.presenter = presenter
+        presenter.view = view
+        presenter.router = router
+        presenter.interactor = interactor
+        interactor.presenter = presenter
+        
         return view
     }
 

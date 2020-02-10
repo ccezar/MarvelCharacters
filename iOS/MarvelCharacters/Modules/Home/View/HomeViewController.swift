@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import AlamofireImage
-import CoreData
 
 class HomeViewController: UIViewController {
     

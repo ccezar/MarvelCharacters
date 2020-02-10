@@ -61,7 +61,7 @@ class HomePresenter: HomeViewToPresenterProtocol {
         }
         
         if !character.isFavorite() {
-            FavoriteCoreDataModel.deleteFavorite(id: id)
+            FavoriteCoreDataModel.removeFavorite(id: id)
         } else {
             FavoriteCoreDataModel.addFavorite(character: character)
         }
