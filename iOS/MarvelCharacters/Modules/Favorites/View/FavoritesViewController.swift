@@ -112,7 +112,9 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        presenter?.showCharacterDetailController(navigationController: navigationController)
+        if let favorite = presenter?.getFavorites()[indexPath.row] {
+            presenter?.showCharacterDetailController(favorite: favorite, navigationController: navigationController)
+        }
     }
 }
 

@@ -22,6 +22,9 @@ protocol CharacterDetailsViewToPresenterProtocol: class {
     func getDescription() -> String
     func getComics() -> [FavoriteProduction]
     func getSeries() -> [FavoriteProduction]
+    func removeFavorite(id: Int)
+    func addFavorite(character: Character)
+    func addFavorite(favorite: FavoriteCharacter)
 }
 
 protocol CharacterDetailsPresenterToViewProtocol: class {

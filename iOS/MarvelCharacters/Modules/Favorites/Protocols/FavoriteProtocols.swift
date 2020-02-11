@@ -19,7 +19,7 @@ protocol FavoritesViewToPresenterProtocol: class {
     func startLoadingFavorites()
     func getFavorites() -> [FavoriteCharacter]
     func removeFavorite(id: Int)
-    func showCharacterDetailController(navigationController: UINavigationController)
+    func showCharacterDetailController(favorite: FavoriteCharacter, navigationController: UINavigationController)
 }
 
 protocol FavoritesPresenterToViewProtocol: class {
@@ -29,7 +29,7 @@ protocol FavoritesPresenterToViewProtocol: class {
 
 protocol FavoritesPresenterToRouterProtocol: class {
     static func createModule() -> FavoritesViewController
-    func pushToCharacterDetailScreen(navigationController: UINavigationController)
+    func pushToCharacterDetailScreen(favorite: FavoriteCharacter, navigationController: UINavigationController)
 }
 
 protocol FavoritesPresenterToInteractorProtocol: class {

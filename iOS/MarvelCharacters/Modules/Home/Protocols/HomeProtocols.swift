@@ -37,6 +37,7 @@ protocol HomePresenterToViewProtocol: class {
 protocol HomePresenterToRouterProtocol: class {
     static func createModule() -> HomeViewController
     func pushToCharacterDetailScreen(character: Character, navigationController: UINavigationController)
+    func pushToCharacterDetailScreen(favorite: FavoriteCharacter, navigationController: UINavigationController)
 }
 
 protocol HomePresenterToInteractorProtocol: class {

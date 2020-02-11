@@ -52,6 +52,7 @@
 		FC96D06F23ED81BB00F7C4FF /* MarvelCharactersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC96D06E23ED81BB00F7C4FF /* MarvelCharactersUITests.swift */; };
 		FCA3F76523F1D9B500EA4E31 /* CharacterDetailsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA3F76423F1D9B500EA4E31 /* CharacterDetailsProtocols.swift */; };
 		FCA3F76723F1DBBA00EA4E31 /* CharacterDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA3F76623F1DBBA00EA4E31 /* CharacterDetailsInteractor.swift */; };
+		FCBFBBBF23F21E5800E7FBEC /* CharacterDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFBBBE23F21E5800E7FBEC /* CharacterDetailsRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 		FC96D07023ED81BB00F7C4FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCA3F76423F1D9B500EA4E31 /* CharacterDetailsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsProtocols.swift; sourceTree = "<group>"; };
 		FCA3F76623F1DBBA00EA4E31 /* CharacterDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsInteractor.swift; sourceTree = "<group>"; };
+		FCBFBBBE23F21E5800E7FBEC /* CharacterDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				FC0A327F23EF678100A1B3BF /* HomeRouter.swift */,
+				FCBFBBBE23F21E5800E7FBEC /* CharacterDetailsRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -714,6 +717,7 @@
 				FC0A328023EF678100A1B3BF /* HomeRouter.swift in Sources */,
 				FC32628823F1FCD500D39D0E /* ProductionCollectionViewCell.swift in Sources */,
 				FC0A327123EE40E400A1B3BF /* Character.swift in Sources */,
+				FCBFBBBF23F21E5800E7FBEC /* CharacterDetailsRouter.swift in Sources */,
 				FC0A326B23EE3E9100A1B3BF /* Comic.swift in Sources */,
 				FC96D05123ED81B900F7C4FF /* HomeViewController.swift in Sources */,
 				FC0A327323EE4B9500A1B3BF /* CharacterDataContainer.swift in Sources */,

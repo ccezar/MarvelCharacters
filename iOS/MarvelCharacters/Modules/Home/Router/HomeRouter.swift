@@ -12,7 +12,7 @@ import UIKit
 class HomeRouter: HomePresenterToRouterProtocol {
     
     static func createModule() -> HomeViewController {
-        let view = mainstoryboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
         
         let presenter: HomeViewToPresenterProtocol & HomeInteractorToPresenterProtocol = HomePresenter()
         let interactor: HomePresenterToInteractorProtocol = HomeInteractor()
@@ -27,24 +27,11 @@ class HomeRouter: HomePresenterToRouterProtocol {
         return view
     }
     
-    static var mainstoryboard: UIStoryboard {
-        return UIStoryboard(name:"Main",bundle: Bundle.main)
-    }
-    
     func pushToCharacterDetailScreen(character: Character, navigationController: UINavigationController) {
-        let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "CharacterDetailsViewController") as! CharacterDetailsViewController
-
-        let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
-        let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
-        
-        presenter.character = character
-        
-        view.presenter = presenter
-        presenter.view = view
-        presenter.interactor = interactor
-        interactor.presenter = presenter
-        
-        navigationController.pushViewController(view, animated: true)
+        CharacterDetailsRouter.pushToCharacterDetailScreen(character: character, navigationController: navigationController)
     }
     
+    func pushToCharacterDetailScreen(favorite: FavoriteCharacter, navigationController: UINavigationController) {
+        CharacterDetailsRouter.pushToCharacterDetailScreen(favorite: favorite, navigationController: navigationController)
+    }
 }

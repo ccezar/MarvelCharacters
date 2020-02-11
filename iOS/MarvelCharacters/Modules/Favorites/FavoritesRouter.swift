@@ -11,7 +11,7 @@ import UIKit
 
 class FavoritesRouter: FavoritesPresenterToRouterProtocol {
     static func createModule() -> FavoritesViewController {
-        let view = mainstoryboard.instantiateViewController(withIdentifier: "FavoritesViewController") as! FavoritesViewController
+        let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "FavoritesViewController") as! FavoritesViewController
             
         let presenter: FavoritesViewToPresenterProtocol & FavoritesInteractorToPresenterProtocol = FavoritesPresenter()
         let interactor: FavoritesPresenterToInteractorProtocol = FavoritesInteractor()
@@ -26,12 +26,18 @@ class FavoritesRouter: FavoritesPresenterToRouterProtocol {
         return view
     }
 
-    static var mainstoryboard: UIStoryboard {
-        return UIStoryboard(name:"Main",bundle: Bundle.main)
-    }
-
-    func pushToCharacterDetailScreen(navigationController: UINavigationController) {
+    func pushToCharacterDetailScreen(favorite: FavoriteCharacter, navigationController: UINavigationController) {
         let view = UIStoryboard(name:"Main",bundle: Bundle.main).instantiateViewController(withIdentifier: "CharacterDetailsViewController") as! CharacterDetailsViewController
+
+        let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
+        let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
+        
+        presenter.favorite = favorite
+        
+        view.presenter = presenter
+        presenter.view = view
+        presenter.interactor = interactor
+        interactor.presenter = presenter
 
 
         navigationController.pushViewController(view, animated: true)

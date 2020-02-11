@@ -41,7 +41,9 @@ class FavoriteCoreDataModel: NSObject {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return favorites }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Favorite")
-        
+        let sort = NSSortDescriptor(key: #keyPath(Favorite.name), ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+
         do {
             let result = try managedContext.fetch(fetchRequest)
 
@@ -67,7 +69,7 @@ class FavoriteCoreDataModel: NSObject {
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Favorite")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id = %@", "\(id)")
         do
         {
             let result = try managedContext.fetch(fetchRequest)
@@ -89,7 +91,7 @@ class FavoriteCoreDataModel: NSObject {
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Favorite")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id = %@", "\(id)")
         do
         {
             let result = try managedContext.fetch(fetchRequest)

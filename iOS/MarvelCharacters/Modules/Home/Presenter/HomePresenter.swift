@@ -52,7 +52,21 @@ class HomePresenter: HomeViewToPresenterProtocol {
     }
     
     func showCharacterDetailController(character: Character, navigationController: UINavigationController) {
-        router?.pushToCharacterDetailScreen(character: character, navigationController: navigationController)
+        if character.isFavorite() {
+            guard let id = character.id, let thumbnail = character.thumbnail, let path = thumbnail.path, let thumbnailExtension = thumbnail.thumbnailExtension else {
+                return
+            }
+            
+            let favorite = FavoriteCharacter.init(id: id,
+                                                  descriptionText: character.resultDescription ?? "",
+                                                  imageURL: "\(path).\(thumbnailExtension)",
+                                                  name: character.name ?? "",
+                                                  comics: [FavoriteProduction](),
+                                                  series: [FavoriteProduction]())
+            router?.pushToCharacterDetailScreen(favorite: favorite, navigationController: navigationController)
+        } else {
+            router?.pushToCharacterDetailScreen(character: character, navigationController: navigationController)
+        }
     }
     
     func updateFavoriteStatus(character: Character) {

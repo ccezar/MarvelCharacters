@@ -26,10 +26,12 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
     
     func setCurrentFilter(nameStartsWith: String) {
         currentFitler = nameStartsWith
+        view?.showFavorites()
     }
     
     func clearCurrentFilter() {
         currentFitler = ""
+        view?.showFavorites()
     }
     
     func startLoadingFavorites() {
@@ -41,8 +43,8 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
         interactor?.removeFavorite(id: id)
     }
     
-    func showCharacterDetailController(navigationController: UINavigationController) {
-        router?.pushToCharacterDetailScreen(navigationController: navigationController)
+    func showCharacterDetailController(favorite: FavoriteCharacter, navigationController: UINavigationController) {
+        router?.pushToCharacterDetailScreen(favorite: favorite, navigationController: navigationController)
     }
 }
 

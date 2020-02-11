@@ -17,7 +17,6 @@ class CharacterDetailsViewController: UIViewController {
     @IBOutlet weak var comicsCollectionView: UICollectionView!
     @IBOutlet weak var seriesCollectionView: UICollectionView!
 
-    
     var presenter: CharacterDetailsViewToPresenterProtocol?
     
     override func viewDidLoad() {
@@ -33,7 +32,39 @@ class CharacterDetailsViewController: UIViewController {
         comicsView.isHidden = true
         seriesView.isHidden = true
         
+        configureFavoriteButton()
         loadData()
+    }
+    
+    func configureFavoriteButton() {
+        let imageName = presenter?.isShowingFavorite() ?? false ? "liked" : "like"
+        
+        let favoriteButton = UIBarButtonItem(image: UIImage(named: imageName), style: .plain, target: self, action: #selector(didTapFavoriteButton(_:)))
+        self.navigationItem.rightBarButtonItem  = favoriteButton
+    }
+    
+    @objc private func didTapFavoriteButton(_ sender: Any) {
+        updateFavoriteStatus()
+    }
+    
+    private func updateFavoriteStatus() {
+        if self.navigationItem.rightBarButtonItem?.image == UIImage(named: "like") {
+            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.favorite {
+                presenter?.addFavorite(favorite: favorite)
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "liked")
+            } else if let character = presenter?.character {
+                presenter?.addFavorite(character: character)
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "liked")
+            }
+        } else {
+            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.favorite {
+                presenter?.removeFavorite(id: favorite.id)
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "like")
+            } else if let id = presenter?.character?.id {
+                presenter?.removeFavorite(id: id)
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "like")
+            }
+        }
     }
     
     func loadData() {
@@ -52,21 +83,22 @@ class CharacterDetailsViewController: UIViewController {
             descriptionLabel.isHidden = true
         }
         
-        
         if presenter?.isShowingFavorite() ?? false {
             guard let presenter = presenter else {
                 return
             }
 
             if presenter.getComics().count > 0 {
-                // LOAD COMICS FROM FAVORITE DIRECTLY
-            } else if let characterId = presenter.character?.id {
+                comicsView.isHidden = false
+                comicsCollectionView.reloadData()
+            } else if let characterId = presenter.favorite?.id {
                 presenter.startFetchingComics(characterId: characterId)
             }
             
             if presenter.getSeries().count > 0 {
-                // LOAD SERIES FROM FAVORITE DIRECTLY
-            } else if let characterId = presenter.character?.id {
+                seriesView.isHidden = false
+                seriesCollectionView.reloadData()
+            } else if let characterId = presenter.favorite?.id {
                 presenter.startFetchingSeries(characterId: characterId)
             }
         } else {

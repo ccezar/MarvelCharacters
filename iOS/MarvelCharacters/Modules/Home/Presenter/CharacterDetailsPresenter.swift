@@ -46,7 +46,7 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     }
     
     func getDescription() -> String {
-        if let favorite = favorite { return favorite.description }
+        if let favorite = favorite { return favorite.descriptionText }
         if let character = character { return character.resultDescription ?? "" }
         
         return ""
@@ -94,6 +94,29 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
         }
         
         return nil
+    }
+    
+    func removeFavorite(id: Int) {
+        FavoriteCoreDataModel.removeFavorite(id: id)
+    }
+    
+    func addFavorite(character: Character) {
+        FavoriteCoreDataModel.addFavorite(character: character)
+    }
+    
+    func addFavorite(favorite: FavoriteCharacter) {
+        
+        let thumb = favorite.imageURL.split(separator: ".")
+        let character = Character.init(id: favorite.id,
+                                       name: favorite.name,
+                                       resultDescription: favorite.descriptionText,
+                                       modified: nil,
+                                       resourceURI: nil,
+                                       urls: nil,
+                                       thumbnail: Thumbnail.init(path: String(thumb.first!),
+                                                                 thumbnailExtension: String(thumb.last!)))
+        
+        FavoriteCoreDataModel.addFavorite(character: character)
     }
 }
 
