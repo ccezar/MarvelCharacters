@@ -75,6 +75,7 @@
 		FCBFBBF323F38EAB00E7FBEC /* Serie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1DD22023F1DF8000A57E3C /* Serie.swift */; };
 		FCBFBBF423F38EAB00E7FBEC /* SerieDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1DD22223F1E02200A57E3C /* SerieDataContainer.swift */; };
 		FCBFBBF523F38EAB00E7FBEC /* SerieDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1DD22423F1E07000A57E3C /* SerieDataWrapper.swift */; };
+		FCBFBBF823F39AEA00E7FBEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC96D05523ED81BA00F7C4FF /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -725,6 +726,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCBFBBF823F39AEA00E7FBEC /* Assets.xcassets in Resources */,
 				FCBFBBCC23F37DC800E7FBEC /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
