@@ -8,6 +8,8 @@
 
 import UIKit
 import NotificationCenter
+import Alamofire
+import AlamofireImage
 
 class WidgetViewController: UIViewController, NCWidgetProviding {
         
@@ -32,8 +34,21 @@ class WidgetViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadModule()
 
         presenter?.startFetchingCharacters()
+    }
+    
+    func loadModule() {
+        let view = self
+        let presenter: WidgetViewToPresenterProtocol & WidgetInteractorToPresenterProtocol = WidgetPresenter()
+        let interactor: WidgetPresenterToInteractorProtocol = WidgetInteractor()
+        
+        view.presenter = presenter
+        presenter.view = view
+        presenter.interactor = interactor
+        interactor.presenter = presenter
     }
         
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
@@ -57,6 +72,11 @@ class WidgetViewController: UIViewController, NCWidgetProviding {
         errorView.isHidden = true
         dataStackView.isHidden = false
     }
+    
+    // function which is triggered when handleTap is called
+    @objc func handleTap(_ sender: MyTapGesture) {
+        print(sender.id)
+    }
 }
 
 extension WidgetViewController: WidgetPresenterToViewProtocol {
@@ -64,22 +84,43 @@ extension WidgetViewController: WidgetPresenterToViewProtocol {
         showErrorView(message: "Looks like there is no internet connection")
     }
     
+    func setCharacterData(character: Character, characterView: UIView, characterLabel: UILabel, imageView: UIImageView) {
+        let tap = MyTapGesture(target: self, action: #selector(self.handleTap(_:)))
+        tap.id = character.id!
+        characterView.addGestureRecognizer(tap)
+        characterLabel.text = character.name
+        if let imageURL = getImageUrl(character: character) {
+            Alamofire.request(imageURL).responseImage { [weak self] (response) in
+                if response.error == nil, let image = response.value {
+                    imageView.image = image
+                }
+            }
+        }
+    }
+    
     func showCharacters() {
         if let presenter = presenter, presenter.getCharacters().count > 0 {
             let count = presenter.getCharacters().count
             
-            firstCharacterLabel.text = presenter.getCharacters()[0].name
+            setCharacterData(character: presenter.getCharacters()[0],
+                             characterView: firstCharacterView,
+                             characterLabel: firstCharacterLabel,
+                             imageView: firstImageView)
             
             if count > 1 {
-                secondCharacterLabel.text = presenter.getCharacters()[0].name
-
+                setCharacterData(character: presenter.getCharacters()[1],
+                                    characterView: secondCharacterView,
+                                    characterLabel: secondCharacterLabel,
+                                    imageView: secondImageView)
             } else {
                 secondCharacterView.isHidden = true
             }
             
             if count > 2 {
-                thirdCharacterLabel.text = presenter.getCharacters()[0].name
-
+                setCharacterData(character: presenter.getCharacters()[2],
+                                    characterView: thirdCharacterView,
+                                    characterLabel: thirdCharacterLabel,
+                                    imageView: thirdImageView)
             } else {
                 thirdCharacterView.isHidden = true
             }
@@ -90,7 +131,21 @@ extension WidgetViewController: WidgetPresenterToViewProtocol {
         }
     }
     
+    private func getImageUrl(character: Character) -> String? {
+        guard let thumbnail = character.thumbnail,
+            let path = thumbnail.path,
+            let thumbnailExtension = thumbnail.thumbnailExtension else {
+            return nil
+        }
+        
+        return "\(path).\(thumbnailExtension)"
+    }
+    
     func showError() {
         showErrorView(message: "An error has occurred, please try again.")
     }
+}
+
+class MyTapGesture: UITapGestureRecognizer {
+    var id = 0
 }
