@@ -1,0 +1,6 @@
+framework module Pods_FirstThreeCharactersWidget {
+  umbrella header "Pods-FirstThreeCharactersWidget-umbrella.h"
+
+  export *
+  module * { export * }
+}

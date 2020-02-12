@@ -8,6 +8,14 @@ target 'MarvelCharacters' do
   pod 'Alamofire'
   pod 'AlamofireImage'
 
+  target 'FirstThreeCharactersWidget' do
+    inherit! :search_paths
+
+    pod 'Alamofire'
+    pod 'AlamofireImage'
+
+  end
+
   target 'MarvelCharactersTests' do
     inherit! :search_paths
     pod 'Quick'
