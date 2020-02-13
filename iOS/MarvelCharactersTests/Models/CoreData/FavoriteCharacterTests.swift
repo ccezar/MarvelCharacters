@@ -9,7 +9,7 @@
 import XCTest
 @testable import MarvelCharacters
 
-class MarvelCharactersTests: XCTestCase {
+class FavoriteCharacterTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

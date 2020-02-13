@@ -12,14 +12,19 @@ import Alamofire
 typealias success = ((_ statusCode: Int, _ result: Data) -> Void)
 typealias failure = ((_ statusCode: Int) -> Void)
 
-open class MarvelAPI {
-    
-    enum Endpoint : String {
-        case characters = "characters",
-        charactersComics = "characters/{characterId}/comics",
-        charactersSeries = "characters/{characterId}/series"
-    }
-    
+enum Endpoint : String {
+    case characters = "characters",
+    charactersComics = "characters/{characterId}/comics",
+    charactersSeries = "characters/{characterId}/series"
+}
+
+protocol MarvelAPIProtocol: class {
+    func isConnectedToInternet() -> Bool
+    func get(endpoint: Endpoint, pathParameters: Parameters?, queryParameters: Parameters,
+                   success: @escaping success, failure: @escaping failure)
+}
+
+open class MarvelAPI: MarvelAPIProtocol {
     private let basePath = "http://gateway.marvel.com/v1/public/"
     private let publicKey = "eaf6a86b375ee3572f5f1517dfbcc9a1"
     private let privateKey = "7b95c96da943e542f4c67038fd3cfef3a64674d1"

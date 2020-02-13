@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "523B98D4-A98F-40F2-AB72-B2138ADA2CA6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:MarvelCharacters.xcodeproj",
+      "identifier" : "FC96D04823ED81B900F7C4FF",
+      "name" : "MarvelCharacters"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:MarvelCharacters.xcodeproj",
+        "identifier" : "FC96D05E23ED81BB00F7C4FF",
+        "name" : "MarvelCharactersTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:MarvelCharacters.xcodeproj",
+        "identifier" : "FC96D06923ED81BB00F7C4FF",
+        "name" : "MarvelCharactersUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

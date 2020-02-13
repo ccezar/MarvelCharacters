@@ -76,6 +76,9 @@ class WidgetViewController: UIViewController, NCWidgetProviding {
     // function which is triggered when handleTap is called
     @objc func handleTap(_ sender: MyTapGesture) {
         print(sender.id)
+        
+        let url: NSURL = NSURL(string: "MarvelCharacters://")!
+        self.extensionContext?.open(url as URL, completionHandler: nil)
     }
 }
 
