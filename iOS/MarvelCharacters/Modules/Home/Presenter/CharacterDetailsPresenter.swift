@@ -13,8 +13,8 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     var interactor: CharacterDetailsPresenterToInteractorProtocol?
     var favorite: FavoriteCharacter?
     var character: Character?
-    var comics = [Comic]()
-    var series = [Serie]()
+    var comics = [CharacterContent]()
+    var series = [CharacterContent]()
 
     func isShowingFavorite() -> Bool {
         return favorite != nil
@@ -78,7 +78,7 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
         return result
     }
     
-    private func transformComicToFavoriteProduction(comic: Comic) -> FavoriteProduction? {
+    private func transformComicToFavoriteProduction(comic: CharacterContent) -> FavoriteProduction? {
         if let thumbnail = comic.thumbnail, let path = thumbnail.path, let thumbnailExtension = thumbnail.thumbnailExtension, let title = comic.title {
             let imageURL = "\(path).\(thumbnailExtension)"
             return FavoriteProduction(imageURL: imageURL, name: title)
@@ -87,7 +87,7 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
         return nil
     }
     
-    private func transformSerieToFavoriteProduction(serie: Serie) -> FavoriteProduction? {
+    private func transformSerieToFavoriteProduction(serie: CharacterContent) -> FavoriteProduction? {
         if let thumbnail = serie.thumbnail, let path = thumbnail.path, let thumbnailExtension = thumbnail.thumbnailExtension, let title = serie.title {
             let imageURL = "\(path).\(thumbnailExtension)"
             return FavoriteProduction(imageURL: imageURL, name: title)
@@ -121,7 +121,7 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
 }
 
 extension CharacterDetailsPresenter: CharacterDetailsInteractorToPresenterProtocol {
-    func noticeLoadComicsSuccess(comics: [Comic]?) {
+    func noticeLoadComicsSuccess(comics: [CharacterContent]?) {
         if let comics = comics, comics.count > 0 {
             if let _ = character {
                 self.comics.removeAll()
@@ -140,7 +140,7 @@ extension CharacterDetailsPresenter: CharacterDetailsInteractorToPresenterProtoc
         }
     }
     
-    func noticeLoadSeriesSuccess(series: [Serie]?) {
+    func noticeLoadSeriesSuccess(series: [CharacterContent]?) {
         if let series = series, series.count > 0 {
             if let _ = character {
                 self.series.removeAll()

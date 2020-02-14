@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Serie: Codable {
+class CharacterContent: Codable {
     let id: Int?
     let title: String?
     let thumbnail: Thumbnail?

@@ -9,14 +9,14 @@
 import XCTest
 @testable import MarvelCharacters
 
-class CharacterDataContainerTests: XCTestCase {
+class CharacterContentDataContainerTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
-    func testCharacterDataContainerConstructor() {
-        let data = CharacterDataContainer.init(offset: 0, limit: 100, total: 5000, count: 99, results: nil)
+    func testCharacterContentDataContainerConstructor() {
+        let data = CharacterContentDataContainer.init(offset: 0, limit: 100, total: 5000, count: 99, results: nil)
         
         XCTAssertNotNil(data.offset)
         XCTAssertEqual(data.offset, 0)
@@ -28,6 +28,5 @@ class CharacterDataContainerTests: XCTestCase {
         XCTAssertEqual(data.count, 99)
         XCTAssertNil(data.results)
     }
-
 
 }

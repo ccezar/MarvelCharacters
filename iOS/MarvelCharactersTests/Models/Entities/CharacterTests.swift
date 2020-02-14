@@ -11,24 +11,44 @@ import XCTest
 
 class CharacterTests: XCTestCase {
 
+    var character: Character!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        character = Character.init(id: 987,
+        name: "Test",
+        resultDescription: "Description test",
+        modified: "2019-02-20",
+        resourceURI: nil,
+        urls: nil,
+        thumbnail: nil)
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testCharacterConstructor() {
+        XCTAssertNotNil(character.id)
+        XCTAssertEqual(character.id, 987)
+        XCTAssertNotNil(character.name)
+        XCTAssertEqual(character.name, "Test")
+        XCTAssertNotNil(character.resultDescription)
+        XCTAssertEqual(character.resultDescription, "Description test")
+        XCTAssertNotNil(character.modified)
+        XCTAssertEqual(character.modified, "2019-02-20")
+        XCTAssertNil(character.resourceURI)
+        XCTAssertNil(character.urls)
+        XCTAssertNil(character.thumbnail)
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testCharacterSetFavorite() {
+        XCTAssertFalse(character.isFavorite())
+        character.setFavorite()
+        XCTAssertTrue(character.isFavorite())
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testCharacterUnsetFavorite() {
+        XCTAssertFalse(character.isFavorite())
+        character.setFavorite()
+        XCTAssertTrue(character.isFavorite())
+        character.unsetFavorite()
+        XCTAssertFalse(character.isFavorite())
     }
 
 }

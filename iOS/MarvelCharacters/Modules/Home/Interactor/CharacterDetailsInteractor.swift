@@ -23,7 +23,7 @@ class CharacterDetailsInteractor: CharacterDetailsPresenterToInteractorProtocol 
                 queryParameters: [:],
         success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
-            guard let comicDataWrapper = try? decoder.decode(ComicDataWrapper.self, from: result) else {
+            guard let comicDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result) else {
                 return
             }
         
@@ -44,7 +44,7 @@ class CharacterDetailsInteractor: CharacterDetailsPresenterToInteractorProtocol 
                 queryParameters: [:],
         success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
-            guard let serieDataWrapper = try? decoder.decode(SerieDataWrapper.self, from: result) else {
+            guard let serieDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result) else {
                 return
             }
         

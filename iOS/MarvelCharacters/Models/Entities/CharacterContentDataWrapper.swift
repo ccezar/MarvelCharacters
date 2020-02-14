@@ -8,14 +8,14 @@
 
 import Foundation
 
-class SerieDataWrapper: Codable {
+class CharacterContentDataWrapper: Codable {
     let code: Int?
     let status, copyright, attributionText, attributionHTML: String?
-    let data: SerieDataContainer?
+    let data: CharacterContentDataContainer?
     let etag: String?
     
     init(code: Int?, status: String?, copyright: String?, attributionText: String?, attributionHTML: String?,
-         data: SerieDataContainer?, etag: String?) {
+         data: CharacterContentDataContainer?, etag: String?) {
         self.code = code
         self.status = status
         self.copyright = copyright

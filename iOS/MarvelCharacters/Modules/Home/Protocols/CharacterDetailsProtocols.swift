@@ -40,7 +40,7 @@ protocol CharacterDetailsPresenterToInteractorProtocol: class {
 }
 
 protocol CharacterDetailsInteractorToPresenterProtocol: class {
-    func noticeLoadComicsSuccess(comics: [Comic]?)
-    func noticeLoadSeriesSuccess(series: [Serie]?)
+    func noticeLoadComicsSuccess(comics: [CharacterContent]?)
+    func noticeLoadSeriesSuccess(series: [CharacterContent]?)
     func noticeNoInternetConnection()
 }
