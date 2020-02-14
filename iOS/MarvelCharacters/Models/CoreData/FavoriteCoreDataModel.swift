@@ -27,7 +27,6 @@ class FavoriteCoreDataModel: NSObject {
             managedObject.setValue(imageURL, forKeyPath: "imageURL")
         }
 
-        
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -129,6 +128,14 @@ class FavoriteCoreDataModel: NSObject {
             }
         } catch {
             print(error)
+        }
+    }
+    
+    class func removeAllFavorites() {
+        let favorites = getFavorites()
+        
+        for favorite in favorites {
+            removeFavorite(id: favorite.id)
         }
     }
 }

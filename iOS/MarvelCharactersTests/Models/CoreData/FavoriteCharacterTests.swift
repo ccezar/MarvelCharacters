@@ -12,23 +12,26 @@ import XCTest
 class FavoriteCharacterTests: XCTestCase {
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testFavoriteCharacterConstructor() {
+        let favorite = FavoriteCharacter.init(id: 99,
+                                              descriptionText: "Test",
+                                              imageURL: "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg",
+                                              name: "Teste Name",
+                                              comics: [FavoriteProduction](),
+                                              series: [FavoriteProduction]())
+        
+        XCTAssertNotNil(favorite.id)
+        XCTAssertEqual(favorite.id, 99)
+        XCTAssertNotNil(favorite.descriptionText)
+        XCTAssertEqual(favorite.descriptionText, "Test")
+        XCTAssertNotNil(favorite.imageURL)
+        XCTAssertEqual(favorite.imageURL, "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg")
+        XCTAssertNotNil(favorite.name)
+        XCTAssertEqual(favorite.name, "Teste Name")
+        XCTAssertEqual(favorite.comics.count, 0)
+        XCTAssertEqual(favorite.series.count, 0)
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

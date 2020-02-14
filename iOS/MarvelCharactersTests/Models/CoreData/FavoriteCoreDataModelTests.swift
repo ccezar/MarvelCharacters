@@ -11,24 +11,88 @@ import XCTest
 
 class FavoriteCoreDataModelTests: XCTestCase {
 
+    var character: Character!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        FavoriteCoreDataModel.removeAllFavorites()
+        
+        character = Character.init(id: 987,
+                                   name: "Test",
+                                   resultDescription: "Description test",
+                                   modified: "2019-02-20",
+                                   resourceURI: nil,
+                                   urls: nil,
+                                   thumbnail: nil)
     }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testAddFavorite() {
+        FavoriteCoreDataModel.addFavorite(character: character)
+        guard let favorite = FavoriteCoreDataModel.getFavorites().first else {
+            XCTFail()
+            return
         }
+        
+        XCTAssertEqual(favorite.id, 987)
     }
+    
+    func testRemoveFavorite() {
+        FavoriteCoreDataModel.addFavorite(character: character)
+        FavoriteCoreDataModel.addFavorite(character: Character.init(id: 123,
+                                                                    name: "Test",
+                                                                    resultDescription: "Description test",
+                                                                    modified: "2019-02-20",
+                                                                    resourceURI: nil,
+                                                                    urls: nil,
+                                                                    thumbnail: nil))
+        
+        FavoriteCoreDataModel.removeFavorite(id: character.id!)
+        
+        let favorites = FavoriteCoreDataModel.getFavorites()
+        
+        XCTAssertFalse(favorites.contains(where: { $0.id == character.id! }))
+    }
+    
+    func testListFavorites() {
+        FavoriteCoreDataModel.addFavorite(character: character)
+        FavoriteCoreDataModel.addFavorite(character: character)
+        FavoriteCoreDataModel.addFavorite(character: character)
+        
+        let favorites = FavoriteCoreDataModel.getFavorites()
+        
+        XCTAssertEqual(favorites.count, 3)
+    }
+    
+    func testUpdateComics() {
+        FavoriteCoreDataModel.addFavorite(character: character)
+        let item1 = FavoriteProduction.init(imageURL: "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg",
+                                            name: "Item 1")
+        let item2 = FavoriteProduction.init(imageURL: "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg",
+                                            name: "Item 2")
+        FavoriteCoreDataModel.updateComics(id: 987, comics: [item1, item2])
+        
+        guard let favorite = FavoriteCoreDataModel.getFavorites().first else {
+            XCTFail()
+            return
+        }
 
+        XCTAssertEqual(favorite.comics.count, 2)
+        XCTAssertEqual(favorite.comics.first?.name, "Item 1")
+    }
+    
+    func testUpdateSeries() {
+        FavoriteCoreDataModel.addFavorite(character: character)
+        let item1 = FavoriteProduction.init(imageURL: "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg",
+                                            name: "Item 1")
+        let item2 = FavoriteProduction.init(imageURL: "http://i.annihil.us/u/prod/marvel/i/mg/5/d0/511e88a20ae34.jpg",
+                                            name: "Item 2")
+        FavoriteCoreDataModel.updateSeries(id: 987, series: [item1, item2])
+        
+        guard let favorite = FavoriteCoreDataModel.getFavorites().first else {
+            XCTFail()
+            return
+        }
+
+        XCTAssertEqual(favorite.series.count, 2)
+        XCTAssertEqual(favorite.series.first?.name, "Item 1")
+    }
 }

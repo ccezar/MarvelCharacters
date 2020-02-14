@@ -54,6 +54,4 @@ public class FavoriteCharacter: NSObject, NSCoding {
 
         self.init(id: Int(mId), descriptionText: mDescriptionText, imageURL: mImageURL, name: mName, comics: mComics, series: mSeries)
     }
-    
-    
 }
