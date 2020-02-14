@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 protocol FavoriteCollectionViewCellProtocol: class {
     func removeFavorite(id: Int)
@@ -26,6 +28,13 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             if let favorite = favorite {
                 nameLabel.text = favorite.name
                 thumbImageView.image = nil
+                if favorite.imageURL != "" {
+                    Alamofire.request(favorite.imageURL).responseImage { [weak self] (response) in
+                        if response.error == nil, let image = response.value {
+                            self?.thumbImageView.image = image
+                        }
+                    }
+                }
             }
         }
     }

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 
 protocol CharacterCollectionViewCellProtocol: class {
@@ -25,8 +27,21 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     var character: Character? {
         didSet {
             if let character = character {
-                nameLabel.text = character.name
                 thumbImageView.image = nil
+                if let thumbnail = character.thumbnail,
+                    let path = thumbnail.path,
+                    let thumbnailExtension = thumbnail.thumbnailExtension {
+                    let imageURL = "\(path).\(thumbnailExtension)"
+                    
+                    
+                    Alamofire.request(imageURL).responseImage { [weak self] (response) in
+                        if response.error == nil, let image = response.value {
+                            self?.thumbImageView.image = image
+                        }
+                    }
+                }
+                
+                nameLabel.text = character.name
                 favoriteButton.setImage(UIImage(named: character.isFavorite() ? "liked" : "like"), for: .normal)
             }
         }
