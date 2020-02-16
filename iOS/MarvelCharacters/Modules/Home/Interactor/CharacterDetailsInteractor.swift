@@ -11,6 +11,10 @@ import Foundation
 class CharacterDetailsInteractor: CharacterDetailsPresenterToInteractorProtocol {
     var presenter: CharacterDetailsInteractorToPresenterProtocol?
     var api = MarvelAPI()
+    var favorite: FavoriteCharacter?
+    var character: Character?
+    var comics: [CharacterContent]?
+    var series: [CharacterContent]?
 
     func fetchComics(characterId: Int) {
         guard api.isConnectedToInternet() else {
@@ -23,11 +27,12 @@ class CharacterDetailsInteractor: CharacterDetailsPresenterToInteractorProtocol 
                 queryParameters: [:],
         success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
-            guard let comicDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result) else {
+            guard let comicDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result), let comics = comicDataWrapper.data?.results else {
                 return
             }
-        
-            self?.presenter?.noticeLoadComicsSuccess(comics: comicDataWrapper.data?.results)
+            
+            self?.comics = comics
+            self?.presenter?.noticeLoadComicsSuccess()
         }, failure: { [weak self] (statusCode) in
 
         })
@@ -44,11 +49,12 @@ class CharacterDetailsInteractor: CharacterDetailsPresenterToInteractorProtocol 
                 queryParameters: [:],
         success: { [weak self] (statusCode, result) in
             let decoder = JSONDecoder()
-            guard let serieDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result) else {
+            guard let serieDataWrapper = try? decoder.decode(CharacterContentDataWrapper.self, from: result), let series = serieDataWrapper.data?.results else {
                 return
             }
-        
-            self?.presenter?.noticeLoadSeriesSuccess(series: serieDataWrapper.data?.results)
+            
+            self?.series = series
+            self?.presenter?.noticeLoadSeriesSuccess()
         }, failure: { [weak self] (statusCode) in
 
         })

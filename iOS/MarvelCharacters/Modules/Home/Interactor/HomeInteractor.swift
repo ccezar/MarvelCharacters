@@ -68,11 +68,12 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.characters = characterDataWrapper.data?.results ?? [Character]()
 
             if page == 1 {
+                self?.filteredCharacters = characterDataWrapper.data?.results ?? [Character]()
                 self?.presenter?.noticeLoadCharactersSuccess(totalCharacters: characterDataWrapper.data?.total)
             } else {
+                self?.filteredCharacters.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
                 self?.presenter?.noticeLoadNextPageSuccess(totalCharacters: characterDataWrapper.data?.total)
             }
         }, failure: { [weak self] (statusCode) in

@@ -11,12 +11,12 @@ import Foundation
 protocol CharacterDetailsViewToPresenterProtocol: class {
     var view: CharacterDetailsPresenterToViewProtocol? {get set}
     var interactor: CharacterDetailsPresenterToInteractorProtocol? {get set}
-    var favorite: FavoriteCharacter? {get set}
-    var character: Character? {get set}
 
     func startFetchingComics(characterId: Int)
     func startFetchingSeries(characterId: Int)
     func isShowingFavorite() -> Bool
+    func getFavorite() -> FavoriteCharacter?
+    func getCharacter() -> Character?
     func getImageURL() -> String
     func getName() -> String
     func getDescription() -> String
@@ -34,13 +34,17 @@ protocol CharacterDetailsPresenterToViewProtocol: class {
 
 protocol CharacterDetailsPresenterToInteractorProtocol: class {
     var presenter: CharacterDetailsInteractorToPresenterProtocol? {get set}
+    var favorite: FavoriteCharacter? {get set}
+    var character: Character? {get set}
+    var comics: [CharacterContent]? {get set}
+    var series: [CharacterContent]? {get set}
     
     func fetchComics(characterId: Int)
     func fetchSeries(characterId: Int)
 }
 
 protocol CharacterDetailsInteractorToPresenterProtocol: class {
-    func noticeLoadComicsSuccess(comics: [CharacterContent]?)
-    func noticeLoadSeriesSuccess(series: [CharacterContent]?)
+    func noticeLoadComicsSuccess()
+    func noticeLoadSeriesSuccess()
     func noticeNoInternetConnection()
 }

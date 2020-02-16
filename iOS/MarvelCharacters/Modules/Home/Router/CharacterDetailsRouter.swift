@@ -15,7 +15,7 @@ class CharacterDetailsRouter {
         let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
         let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
         
-        presenter.character = character
+        interactor.character = character
         
         view.presenter = presenter
         presenter.view = view
@@ -31,7 +31,7 @@ class CharacterDetailsRouter {
         let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
         let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
         
-        presenter.favorite = favorite
+        interactor.favorite = favorite
         
         view.presenter = presenter
         presenter.view = view

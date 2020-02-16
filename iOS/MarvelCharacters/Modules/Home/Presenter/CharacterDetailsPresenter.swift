@@ -11,13 +11,17 @@ import Foundation
 class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     var view: CharacterDetailsPresenterToViewProtocol?
     var interactor: CharacterDetailsPresenterToInteractorProtocol?
-    var favorite: FavoriteCharacter?
-    var character: Character?
-    var comics = [CharacterContent]()
-    var series = [CharacterContent]()
-
+    
+    func getFavorite() -> FavoriteCharacter? {
+        return interactor?.favorite
+    }
+    
+    func getCharacter() -> Character? {
+        return interactor?.character
+    }
+    
     func isShowingFavorite() -> Bool {
-        return favorite != nil
+        return interactor?.favorite != nil
     }
     
     func startFetchingComics(characterId: Int) {
@@ -29,9 +33,9 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     }
     
     func getImageURL() -> String {
-        if let favorite = favorite { return favorite.imageURL }
+        if let favorite = interactor?.favorite { return favorite.imageURL }
         
-        if let thumbnail = character?.thumbnail, let path = thumbnail.path, let thumbnailExtension = thumbnail.thumbnailExtension {
+        if let thumbnail = interactor?.character?.thumbnail, let path = thumbnail.path, let thumbnailExtension = thumbnail.thumbnailExtension {
             return "\(path).\(thumbnailExtension)"
         }
 
@@ -39,22 +43,26 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     }
     
     func getName() -> String {
-        if let favorite = favorite { return favorite.name }
-        if let character = character { return character.name ?? "" }
+        if let favorite = interactor?.favorite { return favorite.name }
+        if let character = interactor?.character { return character.name ?? "" }
         
         return ""
     }
     
     func getDescription() -> String {
-        if let favorite = favorite { return favorite.descriptionText }
-        if let character = character { return character.resultDescription ?? "" }
+        if let favorite = interactor?.favorite { return favorite.descriptionText }
+        if let character = interactor?.character { return character.resultDescription ?? "" }
         
         return ""
     }
     
     func getComics() -> [FavoriteProduction] {
-        if let favorite = favorite { return favorite.comics }
+        if let favorite = interactor?.favorite { return favorite.comics }
 
+        guard let comics = interactor?.comics else {
+            return [FavoriteProduction]()
+        }
+        
         var result = [FavoriteProduction]()
         for comic in comics {
             if let item = transformComicToFavoriteProduction(comic: comic) {
@@ -66,8 +74,12 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
     }
     
     func getSeries() -> [FavoriteProduction] {
-        if let favorite = favorite { return favorite.series }
+        if let favorite = interactor?.favorite { return favorite.series }
 
+        guard let series = interactor?.series else {
+            return [FavoriteProduction]()
+        }
+        
         var result = [FavoriteProduction]()
         for serie in series {
             if let item = transformSerieToFavoriteProduction(serie: serie) {
@@ -121,12 +133,9 @@ class CharacterDetailsPresenter: CharacterDetailsViewToPresenterProtocol {
 }
 
 extension CharacterDetailsPresenter: CharacterDetailsInteractorToPresenterProtocol {
-    func noticeLoadComicsSuccess(comics: [CharacterContent]?) {
-        if let comics = comics, comics.count > 0 {
-            if let _ = character {
-                self.comics.removeAll()
-                self.comics.append(contentsOf: comics)
-            } else if let favorite = favorite {
+    func noticeLoadComicsSuccess() {
+        if let comics = interactor?.comics, comics.count > 0 {
+            if let favorite = interactor?.favorite {
                 for comic in comics {
                     if let item = transformComicToFavoriteProduction(comic: comic) {
                         favorite.comics.append(item)
@@ -140,12 +149,9 @@ extension CharacterDetailsPresenter: CharacterDetailsInteractorToPresenterProtoc
         }
     }
     
-    func noticeLoadSeriesSuccess(series: [CharacterContent]?) {
-        if let series = series, series.count > 0 {
-            if let _ = character {
-                self.series.removeAll()
-                self.series.append(contentsOf: series)
-            } else if let favorite = favorite {
+    func noticeLoadSeriesSuccess() {
+        if let series = interactor?.series, series.count > 0 {
+            if let favorite = interactor?.favorite {
                 for serie in series {
                     if let item = transformSerieToFavoriteProduction(serie: serie) {
                         favorite.series.append(item)

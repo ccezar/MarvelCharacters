@@ -32,7 +32,7 @@ class FavoritesRouter: FavoritesPresenterToRouterProtocol {
         let presenter: CharacterDetailsViewToPresenterProtocol & CharacterDetailsInteractorToPresenterProtocol = CharacterDetailsPresenter()
         let interactor: CharacterDetailsPresenterToInteractorProtocol = CharacterDetailsInteractor()
         
-        presenter.favorite = favorite
+        interactor.favorite = favorite
         
         view.presenter = presenter
         presenter.view = view

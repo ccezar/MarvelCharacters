@@ -49,18 +49,18 @@ class CharacterDetailsViewController: UIViewController {
     
     private func updateFavoriteStatus() {
         if self.navigationItem.rightBarButtonItem?.image == UIImage(named: "like") {
-            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.favorite {
+            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.getFavorite() {
                 presenter?.addFavorite(favorite: favorite)
                 self.navigationItem.rightBarButtonItem?.image = UIImage(named: "liked")
-            } else if let character = presenter?.character {
+            } else if let character = presenter?.getCharacter() {
                 presenter?.addFavorite(character: character)
                 self.navigationItem.rightBarButtonItem?.image = UIImage(named: "liked")
             }
         } else {
-            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.favorite {
+            if presenter?.isShowingFavorite() ?? false, let favorite = presenter?.getFavorite() {
                 presenter?.removeFavorite(id: favorite.id)
                 self.navigationItem.rightBarButtonItem?.image = UIImage(named: "like")
-            } else if let id = presenter?.character?.id {
+            } else if let id = presenter?.getCharacter()?.id {
                 presenter?.removeFavorite(id: id)
                 self.navigationItem.rightBarButtonItem?.image = UIImage(named: "like")
             }
@@ -91,18 +91,18 @@ class CharacterDetailsViewController: UIViewController {
             if presenter.getComics().count > 0 {
                 comicsView.isHidden = false
                 comicsCollectionView.reloadData()
-            } else if let characterId = presenter.favorite?.id {
+            } else if let characterId = presenter.getFavorite()?.id {
                 presenter.startFetchingComics(characterId: characterId)
             }
             
             if presenter.getSeries().count > 0 {
                 seriesView.isHidden = false
                 seriesCollectionView.reloadData()
-            } else if let characterId = presenter.favorite?.id {
+            } else if let characterId = presenter.getFavorite()?.id {
                 presenter.startFetchingSeries(characterId: characterId)
             }
         } else {
-            guard let characterId = presenter?.character?.id else {
+            guard let characterId = presenter?.getCharacter()?.id else {
                 return
             }
             
