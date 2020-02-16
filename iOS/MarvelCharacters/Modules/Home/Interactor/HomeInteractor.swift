@@ -10,6 +10,8 @@ import Foundation
 
 class HomeInteractor: HomePresenterToInteractorProtocol {
     weak var presenter: HomeInteractorToPresenterProtocol?
+    var characters = [Character]()
+    var filteredCharacters = [Character]()
     var api = MarvelAPI()
     
     func fetchCharacters() {
@@ -31,10 +33,8 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.presenter?.noticeLoadCharactersSuccess(
-                characters: characterDataWrapper.data?.results,
-                totalCharacters: characterDataWrapper.data?.total
-            )
+            self?.characters = characterDataWrapper.data?.results ?? [Character]()
+            self?.presenter?.noticeLoadCharactersSuccess(totalCharacters: characterDataWrapper.data?.total)
         }, failure: { [weak self] (statusCode) in
             self?.presenter?.noticeLoadCharactersFailure()
         })
@@ -68,16 +68,12 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
+            self?.characters = characterDataWrapper.data?.results ?? [Character]()
+
             if page == 1 {
-                self?.presenter?.noticeLoadCharactersSuccess(
-                    characters: characterDataWrapper.data?.results,
-                    totalCharacters: characterDataWrapper.data?.total
-                )
+                self?.presenter?.noticeLoadCharactersSuccess(totalCharacters: characterDataWrapper.data?.total)
             } else {
-                self?.presenter?.noticeLoadNextPageSuccess(
-                    characters: characterDataWrapper.data?.results,
-                    totalCharacters: characterDataWrapper.data?.total
-                )
+                self?.presenter?.noticeLoadNextPageSuccess(totalCharacters: characterDataWrapper.data?.total)
             }
         }, failure: { [weak self] (statusCode) in
             if page == 1 {
@@ -110,10 +106,8 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.presenter?.noticeLoadNextPageSuccess(
-                characters: characterDataWrapper.data?.results,
-                totalCharacters: characterDataWrapper.data?.total
-            )
+            self?.characters.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
+            self?.presenter?.noticeLoadNextPageSuccess(totalCharacters: characterDataWrapper.data?.total)
         }, failure: { [weak self] (statusCode) in
             self?.presenter?.noticeLoadNextPageFailure()
         })
@@ -138,10 +132,9 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.presenter?.noticeRefreshSuccess(
-                characters: characterDataWrapper.data?.results,
-                totalCharacters: characterDataWrapper.data?.total
-            )
+            self?.characters.removeAll()
+            self?.characters = characterDataWrapper.data?.results ?? [Character]()
+            self?.presenter?.noticeRefreshSuccess(totalCharacters: characterDataWrapper.data?.total)
         }, failure: { [weak self] (statusCode) in
             self?.presenter?.noticeRefreshFailure()
         })

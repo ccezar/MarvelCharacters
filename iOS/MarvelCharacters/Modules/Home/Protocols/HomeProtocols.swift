@@ -42,7 +42,9 @@ protocol HomePresenterToRouterProtocol: class {
 
 protocol HomePresenterToInteractorProtocol: class {
     var presenter: HomeInteractorToPresenterProtocol? {get set}
-    
+    var characters: [Character] {get set}
+    var filteredCharacters: [Character] {get set}
+
     func filterCharacters(nameStartsWith: String, page: Int)
     func fetchCharacters()
     func loadCharactersNextPage(page: Int)
@@ -51,11 +53,11 @@ protocol HomePresenterToInteractorProtocol: class {
 
 protocol HomeInteractorToPresenterProtocol: class {
     func noticeNoInternetConnection()
-    func noticeRefreshSuccess(characters: [Character]?, totalCharacters: Int?)
+    func noticeRefreshSuccess(totalCharacters: Int?)
     func noticeRefreshFailure()
-    func noticeLoadCharactersSuccess(characters: [Character]?, totalCharacters: Int?)
+    func noticeLoadCharactersSuccess(totalCharacters: Int?)
     func noticeFilterCharactersFailure()
     func noticeLoadCharactersFailure()
-    func noticeLoadNextPageSuccess(characters: [Character]?, totalCharacters: Int?)
+    func noticeLoadNextPageSuccess(totalCharacters: Int?)
     func noticeLoadNextPageFailure()
 }

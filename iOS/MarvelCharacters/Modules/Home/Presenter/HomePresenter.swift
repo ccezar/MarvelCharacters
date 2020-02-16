@@ -13,8 +13,6 @@ class HomePresenter: HomeViewToPresenterProtocol {
     weak var view: HomePresenterToViewProtocol?
     var interactor: HomePresenterToInteractorProtocol?
     var router: HomePresenterToRouterProtocol?
-    var characters = [Character]()
-    var filteredCharacters = [Character]()
     var searchActive = false
     var page = 1
     private var hasNextPage = true
@@ -22,9 +20,9 @@ class HomePresenter: HomeViewToPresenterProtocol {
     
     func getCharacters() -> [Character] {
         if searchActive {
-            return filteredCharacters
+            return interactor?.filteredCharacters ?? [Character]()
         } else {
-            return characters
+            return interactor?.characters ?? [Character]()
         }
     }
     
@@ -82,7 +80,7 @@ class HomePresenter: HomeViewToPresenterProtocol {
     }
     
     func updateCharactersFavoriteStatus() {
-        setFavorites(characters)
+        setFavorites(interactor?.characters ?? [Character]())
     }
     
     private func setFavorites(_ characters: [Character]) {
@@ -102,15 +100,12 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         view?.showErrorInternetConnection()
     }
     
-    func noticeRefreshSuccess(characters: [Character]?, totalCharacters: Int?) {
-        guard let elements = characters else {
+    func noticeRefreshSuccess(totalCharacters: Int?) {
+        guard let elements = interactor?.characters else {
             return
         }
         
         setFavorites(elements)
-        self.characters.removeAll()
-        self.characters.append(contentsOf: elements)
-
         view?.showCharacters()
     }
     
@@ -118,8 +113,8 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         view?.showErrorRefresh()
     }
     
-    func noticeLoadCharactersSuccess(characters: [Character]?, totalCharacters: Int?) {
-        guard let elements = characters, let totalCharacters = totalCharacters else {
+    func noticeLoadCharactersSuccess(totalCharacters: Int?) {
+        guard let elements = interactor?.characters, let totalCharacters = totalCharacters else {
             return
         }
         
@@ -127,14 +122,6 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         
         let totalPages = totalCharacters / 20
         hasNextPage = (page + 1) <= totalPages
-        
-        if searchActive {
-            self.filteredCharacters.removeAll()
-            self.filteredCharacters.append(contentsOf: elements)
-        } else {
-            self.characters.removeAll()
-            self.characters.append(contentsOf: elements)
-        }
         
         view?.showCharacters()
     }
@@ -143,8 +130,8 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
         view?.showError()
     }
     
-    func noticeLoadNextPageSuccess(characters: [Character]?, totalCharacters: Int?) {
-        guard let elements = characters, let totalCharacters = totalCharacters else {
+    func noticeLoadNextPageSuccess(totalCharacters: Int?) {
+        guard let elements = interactor?.characters, let totalCharacters = totalCharacters else {
             return
         }
         
@@ -152,12 +139,6 @@ extension HomePresenter: HomeInteractorToPresenterProtocol {
 
         let totalPages = totalCharacters / 20
         hasNextPage = (page + 1) <= totalPages
-        
-        if searchActive {
-            self.filteredCharacters.append(contentsOf: elements)
-        } else {
-            self.characters.append(contentsOf: elements)
-        }
         
         view?.showCharacters()
     }
