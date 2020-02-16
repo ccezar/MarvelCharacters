@@ -10,14 +10,16 @@ import Foundation
 
 class FavoritesInteractor: FavoritesPresenterToInteractorProtocol {
     weak var presenter: FavoritesInteractorToPresenterProtocol?
+    var favorites: [FavoriteCharacter]?
 
     func fetchFavorites() {
-        let favorites = FavoriteCoreDataModel.getFavorites()
+        favorites = FavoriteCoreDataModel.getFavorites()
         
-        presenter?.noticeLoadFavoritesSuccess(favorites: favorites)
+        presenter?.noticeLoadFavoritesSuccess()
     }
     
     func removeFavorite(id: Int) {
+        favorites?.removeAll(where: { $0.id == id })
         FavoriteCoreDataModel.removeFavorite(id: id)
     }
 }

@@ -13,10 +13,13 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
     weak var view: FavoritesPresenterToViewProtocol?
     var interactor: FavoritesPresenterToInteractorProtocol?
     var router: FavoritesPresenterToRouterProtocol?
-    var favorites = [FavoriteCharacter]()
     private var currentFitler = ""
     
     func getFavorites() -> [FavoriteCharacter] {
+        guard let favorites = interactor?.favorites else {
+            return [FavoriteCharacter]()
+        }
+        
         if currentFitler == "" {
             return favorites
         } else {
@@ -39,7 +42,6 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
     }
     
     func removeFavorite(id: Int) {
-        favorites.removeAll(where: { $0.id == id })
         interactor?.removeFavorite(id: id)
     }
     
@@ -49,10 +51,7 @@ class FavoritesPresenter: FavoritesViewToPresenterProtocol {
 }
 
 extension FavoritesPresenter: FavoritesInteractorToPresenterProtocol {
-    func noticeLoadFavoritesSuccess(favorites: [FavoriteCharacter]) {
-        self.favorites.removeAll()
-        self.favorites.append(contentsOf: favorites)
-        
+    func noticeLoadFavoritesSuccess() {
         view?.showFavorites()
     }
     

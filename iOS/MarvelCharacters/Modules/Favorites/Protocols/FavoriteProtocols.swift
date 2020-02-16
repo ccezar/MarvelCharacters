@@ -34,13 +34,14 @@ protocol FavoritesPresenterToRouterProtocol: class {
 
 protocol FavoritesPresenterToInteractorProtocol: class {
     var presenter: FavoritesInteractorToPresenterProtocol? {get set}
-    
+    var favorites: [FavoriteCharacter]? {get set}
+
     func fetchFavorites()
     func removeFavorite(id: Int)
 }
 
 protocol FavoritesInteractorToPresenterProtocol: class {
-    func noticeLoadFavoritesSuccess(favorites: [FavoriteCharacter])
+    func noticeLoadFavoritesSuccess()
     func noticeLoadFavoritesFailure()
 }
 
