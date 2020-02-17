@@ -154,16 +154,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       startingScrollingOffset = scrollView.contentOffset
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let count = presenter?.getCharacters().count else {
+            return
+        }
         
-        // TODO: Refactor this logic, it doesn't work very well...
-        let cellHeight: CGFloat = 230 + 10 // cell insects (top + bottom)
-        let offset = scrollView.contentOffset.y + scrollView.contentInset.top
-        let proposedPage = offset / max(1, cellHeight)
-        let snapPoint: CGFloat = 0.1
-        let snapDelta: CGFloat = offset > startingScrollingOffset.y ? (1 - snapPoint) : snapPoint
-
-        if floor(proposedPage + snapDelta) != floor(proposedPage) {
+        if (indexPath.row == count - 4) {
             presenter?.startLoadingCharactersNextPage()
         }
     }
@@ -171,7 +167,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCollectionViewCell", for: indexPath) as! CharacterCollectionViewCell
         
-        cell.character = presenter?.getCharacters()[indexPath.row]
+        guard let character = presenter?.getCharacters()[indexPath.row] else {
+            return UICollectionViewCell()
+        }
+        
+        cell.character = character
         cell.delegate = self
 
         return cell
@@ -220,6 +220,7 @@ extension HomeViewController: UISearchControllerDelegate, UISearchBarDelegate, U
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchString = searchBar.text {
             presenter?.startFilteringCharacters(nameStartsWith: searchString)
+            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
     
