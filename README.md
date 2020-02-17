@@ -23,10 +23,15 @@ Para rodar os testes da aplicação serár necessário executá-los diretamente 
 Foi utilizado a arquitetura VIPER. Sendo o VIPER uma forma de usar a Clean Architecture, ele sugere como fazer as interações entre as camadas propostas por Uncle Bob.
 
 VIPER é um acronimo formado pelas seguintes palavras
+
 View — Telas
+
 Interactor — Regras de negócio à nível de aplicação
+
 Presenter — Transformam dados para serem apresentados ou encaminhados para o interactor.
+
 Entity — Value objects ou lógicas reaproveitáveis
+
 Router — Cuida do fluxo de telas
 
 ### Frameworks
