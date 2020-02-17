@@ -10,8 +10,8 @@ import Foundation
 
 class HomeInteractor: HomePresenterToInteractorProtocol {
     weak var presenter: HomeInteractorToPresenterProtocol?
-    var characters = [Character]()
-    var filteredCharacters = [Character]()
+    var characters: [Character]?
+    var filteredCharacters: [Character]?
     var api = MarvelAPI()
     
     func fetchCharacters() {
@@ -73,7 +73,7 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 self?.filteredCharacters = characterDataWrapper.data?.results ?? [Character]()
                 self?.presenter?.noticeLoadCharactersSuccess(totalCharacters: characterDataWrapper.data?.total)
             } else {
-                self?.filteredCharacters.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
+                self?.filteredCharacters?.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
                 self?.presenter?.noticeLoadNextPageSuccess(totalCharacters: characterDataWrapper.data?.total)
             }
         }, failure: { [weak self] (statusCode) in
@@ -107,7 +107,7 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.characters.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
+            self?.characters?.append(contentsOf: characterDataWrapper.data?.results ?? [Character]())
             self?.presenter?.noticeLoadNextPageSuccess(totalCharacters: characterDataWrapper.data?.total)
         }, failure: { [weak self] (statusCode) in
             self?.presenter?.noticeLoadNextPageFailure()
@@ -133,7 +133,7 @@ class HomeInteractor: HomePresenterToInteractorProtocol {
                 return
             }
         
-            self?.characters.removeAll()
+            self?.characters?.removeAll()
             self?.characters = characterDataWrapper.data?.results ?? [Character]()
             self?.presenter?.noticeRefreshSuccess(totalCharacters: characterDataWrapper.data?.total)
         }, failure: { [weak self] (statusCode) in

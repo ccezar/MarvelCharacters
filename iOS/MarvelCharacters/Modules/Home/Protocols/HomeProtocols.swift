@@ -42,8 +42,8 @@ protocol HomePresenterToRouterProtocol: class {
 
 protocol HomePresenterToInteractorProtocol: class {
     var presenter: HomeInteractorToPresenterProtocol? {get set}
-    var characters: [Character] {get set}
-    var filteredCharacters: [Character] {get set}
+    var characters: [Character]? {get set}
+    var filteredCharacters: [Character]? {get set}
 
     func filterCharacters(nameStartsWith: String, page: Int)
     func fetchCharacters()

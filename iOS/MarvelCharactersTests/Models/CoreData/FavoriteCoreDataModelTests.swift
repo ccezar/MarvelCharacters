@@ -14,8 +14,6 @@ class FavoriteCoreDataModelTests: XCTestCase {
     var character: Character!
     
     override func setUp() {
-        FavoriteCoreDataModel.removeAllFavorites()
-        
         character = Character.init(id: 987,
                                    name: "Test",
                                    resultDescription: "Description test",
@@ -24,10 +22,14 @@ class FavoriteCoreDataModelTests: XCTestCase {
                                    urls: nil,
                                    thumbnail: nil)
     }
+
+    override func tearDown() {
+        FavoriteCoreDataModel.removeAllFavorites()
+    }
     
     func testAddFavorite() {
         FavoriteCoreDataModel.addFavorite(character: character)
-        guard let favorite = FavoriteCoreDataModel.getFavorites().first else {
+        guard let favorite = FavoriteCoreDataModel.getFavorites().filter({ $0.id == 987 }).first else {
             XCTFail()
             return
         }
