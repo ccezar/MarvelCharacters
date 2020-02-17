@@ -90,7 +90,11 @@ extension FavoritesViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCollectionViewCell", for: indexPath) as! FavoriteCollectionViewCell
         
-        cell.favorite = presenter?.getFavorites()[indexPath.row]
+        guard let favorite = presenter?.getFavorites()[indexPath.row] else {
+            return UICollectionViewCell()
+        }
+        
+        cell.favorite = favorite
         cell.delegate = self
 
         return cell
